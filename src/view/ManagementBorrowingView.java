@@ -5,10 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import model.Book;
-//import model.Date;
+import model.Borrowing;
 import model.Librarian;
 import model.User;
-import model.Borrowing;
 
 public class ManagementBorrowingView extends MenuGeneric {
 
@@ -58,6 +57,7 @@ public class ManagementBorrowingView extends MenuGeneric {
         String bookTitle = scanner.nextLine();
         Book book = new Book(bookTitle);
 
+        // Đọc ngày mượn và ngày trả
         Calendar borrowingDate = readDate("Nhập ngày mượn (ngày/tháng/năm): ");
         Calendar returnDate = readDate("Nhập ngày trả (ngày/tháng/năm): ");
 
@@ -75,6 +75,7 @@ public class ManagementBorrowingView extends MenuGeneric {
 
         librarian.returnBook(returnUser, returnBook);
     }
+
     private void renewBook() {
         System.out.print("Nhập tên người gia hạn sách: ");
         String renewUserName = scanner.nextLine();
@@ -82,11 +83,17 @@ public class ManagementBorrowingView extends MenuGeneric {
 
         System.out.print("Nhập tiêu đề sách cần gia hạn: ");
         String renewBookTitle = scanner.nextLine();
-        Book renewBook = new Book(renewBookTitle);
 
+        // Gia hạn sách
+        Book renewBook = new Book(renewBookTitle);
+        System.out.print("Nhập tiêu đề sách mới: ");
+        String newTitle = scanner.nextLine();
+        renewBook.renewBook(newTitle);
+
+        // Đọc ngày trả mới
         Calendar newReturnDate = readDate("Nhập ngày trả mới (ngày/tháng/năm): ");
 
-        librarian.renewBook(renewUser, renewBook, newReturnDate.getTime());
+        librarian.renewBook(renewUser, renewBook, newReturnDate);
     }
 
     private void searchBook() {
